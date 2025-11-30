@@ -13,13 +13,22 @@ import {
   Switch,
 } from "react-native";
 
-export default function RegistroUsuarioScreen() {
+export default function RegistroUsuarioScreen({ navigation }) {
   const [nombre, setNombre] = useState("");
   const [correo, setCorreo] = useState("");
   const [telefono, setTelefono] = useState("");
   const [contrasena, setContrasena] = useState("");
   const [confirmar, setConfirmar] = useState("");
   const [aceptaTerminos, setAceptaTerminos] = useState(false);
+
+  const registrarUsuario = () => {
+    alert("Cuenta creada correctamente");
+    navigation.navigate("InicioSesion");
+  };
+
+  const volverInicioSesion = () => {
+    navigation.navigate("InicioSesion");
+  };
 
   return (
     <ImageBackground source={require("../assets/fondoTacos.png")} style={styles.background}>
@@ -28,7 +37,7 @@ export default function RegistroUsuarioScreen() {
         <SafeAreaView style={styles.container}>
           <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
           <ScrollView contentContainerStyle={styles.scroll}>
-            
+
             {/* Logo y título */}
             <View style={styles.header}>
               <Image source={require("../assets/tacoLogo.png")} style={styles.logo} />
@@ -90,14 +99,14 @@ export default function RegistroUsuarioScreen() {
             </View>
 
             {/* Botón principal */}
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={registrarUsuario}>
               <Text style={styles.buttonText}>REGISTRARSE</Text>
             </TouchableOpacity>
 
             {/* Footer */}
             <View style={styles.footer}>
               <Text style={styles.footerText}>Ya tienes cuenta: </Text>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={volverInicioSesion}>
                 <Text style={styles.link}>Inicia Sesión</Text>
               </TouchableOpacity>
             </View>

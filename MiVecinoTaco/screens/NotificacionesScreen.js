@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function NotificacionesScreen() {
+export default function NotificacionesScreen({ navigation }) {
   const notificaciones = [
     {
       tipo: "pedido",
@@ -59,6 +59,18 @@ export default function NotificacionesScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="arrow-back" size={28} color="#1F1F1F" />
+        </TouchableOpacity>
+
+        <View style={styles.logoTitle}>
+          <Image source={require("../assets/tacoLogo.png")} style={styles.logo} />
+          <Text style={styles.headerTitle}>Mi Vecino el Taco</Text>
+        </View>
+
+        <View style={{ width: 40 }} />
+      </View>
       <StatusBar backgroundColor="#FF8C00" barStyle="light-content" />
       <Text style={styles.title}>NOTIFICACIONES</Text>
 
@@ -120,4 +132,17 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   clearText: { color: "#FFF", fontWeight: "bold", fontSize: 14 },
+
+  header: {
+    backgroundColor: "#FF8C00",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    paddingVertical: 14,
+    elevation: 4,
+  },
+  logoTitle: { flexDirection: "row", alignItems: "center" },
+  logo: { width: 48, height: 48, resizeMode: "contain", marginRight: 10 },
+  headerTitle: { fontSize: 18, fontWeight: "bold", color: "#1F1F1F" },
 });

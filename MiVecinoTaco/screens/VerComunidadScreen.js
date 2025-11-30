@@ -14,52 +14,53 @@ import { Ionicons, FontAwesome } from "@expo/vector-icons";
 
 const { width } = Dimensions.get("window");
 
-export default function VerComunidadScreen() {
+export default function VerComunidadScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#FF8C00" barStyle="light-content" />
 
-      {/* Header */}
+      {/* HEADER */}
       <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="arrow-back" size={28} color="#1F1F1F" />
+        </TouchableOpacity>
+
         <View style={styles.logoTitle}>
           <Image source={require("../assets/tacoLogo.png")} style={styles.logo} />
           <Text style={styles.headerTitle}>Mi Vecino el Taco</Text>
         </View>
-        <View style={styles.headerIcons}>
-          <TouchableOpacity>
-            <Ionicons name="notifications-outline" size={24} color="#1F1F1F" />
-          </TouchableOpacity>
-          <TouchableOpacity style={{ marginLeft: 16 }}>
-            <Ionicons name="person-circle-outline" size={28} color="#1F1F1F" />
-          </TouchableOpacity>
-        </View>
+        
+        <TouchableOpacity style={styles.headerIcons} onPress={() => navigation.navigate("Notificaciones")}>
+          <Ionicons name="notifications-outline" size={24} color="#1F1F1F" />
+        </TouchableOpacity>
       </View>
 
-      {/* Título */}
       <Text style={styles.sectionTitle}>COMUNIDAD</Text>
       <Text style={styles.subTitle}>TAQUERÍA “EL PAISA”</Text>
 
-      {/* Comentarios */}
       <ScrollView contentContainerStyle={styles.scroll}>
         {[
           {
             usuario: "Juan Julián Juárez",
             tiempo: "hace 5 meses",
-            texto: "¡Los tacos al pastor son los mejores! 100% recomendados con piña",
+            texto:
+              "¡Los tacos al pastor son los mejores! 100% recomendados con piña",
             likes: 16,
             comentarios: 4,
           },
           {
             usuario: "Paulin ReneGul",
             tiempo: "hace 5 meses",
-            texto: "Cuando pedí campechanos, el chorizo traía un pelo, qué oso efe",
+            texto:
+              "Cuando pedí campechanos, el chorizo traía un pelo, qué oso efe",
             likes: 5,
             comentarios: 1,
           },
           {
             usuario: "Saul Rico",
             tiempo: "hace 1 año",
-            texto: "Buen lugar, sabor único, limpieza al 100%, gran servicio... Todo eso faltó!!",
+            texto:
+              "Buen lugar, sabor único, limpieza al 100%, gran servicio... Todo eso faltó!!",
             likes: 30,
             comentarios: 12,
           },
@@ -72,12 +73,15 @@ export default function VerComunidadScreen() {
                 <Text style={styles.time}>{item.tiempo}</Text>
               </View>
             </View>
+
             <Text style={styles.commentText}>{item.texto}</Text>
+
             <View style={styles.commentFooter}>
               <TouchableOpacity style={styles.metric}>
                 <FontAwesome name="thumbs-up" size={16} color="#FF8C00" />
                 <Text style={styles.metricText}>{item.likes}</Text>
               </TouchableOpacity>
+
               <TouchableOpacity style={styles.metric}>
                 <FontAwesome name="comment" size={16} color="#FF8C00" />
                 <Text style={styles.metricText}>{item.comentarios}</Text>
@@ -86,20 +90,6 @@ export default function VerComunidadScreen() {
           </View>
         ))}
       </ScrollView>
-
-      {/* Barra de navegación */}
-      <View style={styles.navBar}>
-        {[
-          { icon: "people", label: "COMUNIDADES" },
-          { icon: "home", label: "INICIO" },
-          { icon: "map", label: "MAPA" },
-        ].map((item, index) => (
-          <TouchableOpacity key={index} style={styles.navItem}>
-            <Ionicons name={item.icon} size={24} color="#1F1F1F" />
-            <Text style={styles.navText}>{item.label}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
     </SafeAreaView>
   );
 }

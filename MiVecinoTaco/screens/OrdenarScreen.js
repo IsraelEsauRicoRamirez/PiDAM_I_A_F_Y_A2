@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function OrdenarScreen() {
+export default function OrdenarScreen({ navigation }) {
   const [openSection, setOpenSection] = useState(null);
 
   const tacos = [
@@ -55,6 +55,7 @@ export default function OrdenarScreen() {
                 <Text style={styles.productDesc}>{item.descripcion}</Text>
                 <Text style={styles.productPrice}>{item.precio}</Text>
               </View>
+
               <TouchableOpacity style={styles.addButton}>
                 <Text style={styles.addText}>+ Agregar</Text>
               </TouchableOpacity>
@@ -68,44 +69,60 @@ export default function OrdenarScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#FF8C00" barStyle="light-content" />
+
+      {/* HEADER IGUAL QUE VerComunidad */}
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="arrow-back" size={28} color="#1F1F1F" />
+        </TouchableOpacity>
+
+        <View style={styles.logoTitle}>
+          <Image source={require("../assets/tacoLogo.png")} style={styles.logo} />
+          <Text style={styles.headerTitle}>Mi Vecino el Taco</Text>
+        </View>
+        <TouchableOpacity style={styles.headerIcons} onPress={() => navigation.navigate("Notificaciones")}>
+          <Ionicons name="notifications-outline" size={24} color="#1F1F1F" />
+        </TouchableOpacity>
+      </View>
+
       <ScrollView contentContainerStyle={styles.scroll}>
-        {/* Imagen promocional */}
         <Image source={require("../assets/tacosPromo.png")} style={styles.banner} />
 
-        {/* Info del lugar */}
         <Text style={styles.title}>Taquería 20 de Noviembre</Text>
         <Text style={styles.subText}>📍 A 1.2 Km</Text>
 
         <View style={styles.infoBox}>
           <Text style={styles.label}>📍 Dirección</Text>
           <Text style={styles.value}>Calle Morales 456, Col. Juárez</Text>
+
           <Text style={styles.label}>🕒 Horario</Text>
           <Text style={styles.value}>Lun - Sab: 7:00 PM - 1:00 AM</Text>
+
           <Text style={styles.label}>📞 Teléfono</Text>
           <Text style={styles.value}>+52 833 155 0045</Text>
         </View>
 
-        {/* Botones de acción */}
         <View style={styles.actionRow}>
           <TouchableOpacity style={styles.actionButton}>
             <Text style={styles.actionText}>📞 LLAMA YA</Text>
           </TouchableOpacity>
+
           <TouchableOpacity style={styles.actionButton}>
             <Text style={styles.actionText}>🗺️ CÓMO LLEGAR</Text>
           </TouchableOpacity>
+
           <TouchableOpacity style={styles.actionButton}>
             <Text style={styles.actionText}>🔗 UNIRSE A LA COMUNIDAD</Text>
           </TouchableOpacity>
         </View>
 
-        {/* Menú con listas desplegables */}
         {renderSection("TACOS", tacos, "tacos")}
         {renderSection("BEBIDAS", bebidas, "bebidas")}
         {renderSection("EXTRAS", extras, "extras")}
 
-        {/* Footer */}
         <View style={styles.footer}>
           <Text style={styles.footerText}>Agrega productos a tu pedido</Text>
+
           <TouchableOpacity style={styles.callButton}>
             <Text style={styles.callText}>📞 Llamar para ordenar</Text>
           </TouchableOpacity>
@@ -198,4 +215,20 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   callText: { color: "#FFF", fontWeight: "bold", fontSize: 14 },
+  header: {
+    backgroundColor: "#FF8C00",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    paddingVertical: 14,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 4,
+  },
+  logoTitle: { flexDirection: "row", alignItems: "center" },
+  logo: { width: 48, height: 48, resizeMode: "contain", marginRight: 10 },
+  headerTitle: { fontSize: 18, fontWeight: "bold", color: "#1F1F1F" },
+  headerIcons: { flexDirection: "row", alignItems: "center" },
 });

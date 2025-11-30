@@ -14,7 +14,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 const { width } = Dimensions.get("window");
 
-export default function ComunidadesScreen() {
+export default function ComunidadesScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#FF8C00" barStyle="light-content" />
@@ -26,11 +26,8 @@ export default function ComunidadesScreen() {
           <Text style={styles.headerTitle}>Mi Vecino el Taco</Text>
         </View>
         <View style={styles.headerIcons}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Notificaciones")}>
             <Ionicons name="notifications-outline" size={24} color="#1F1F1F" />
-          </TouchableOpacity>
-          <TouchableOpacity style={{ marginLeft: 16 }}>
-            <Ionicons name="person-circle-outline" size={28} color="#1F1F1F" />
           </TouchableOpacity>
         </View>
       </View>
@@ -65,10 +62,16 @@ export default function ComunidadesScreen() {
               <Text style={styles.details}>{taco.miembros} · {taco.distancia}</Text>
               <Text style={styles.rating}>⭐ 4.9</Text>
               <View style={styles.buttonRow}>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => navigation.navigate("VerComunidad")}
+                >
                   <Text style={styles.buttonText}>VER COMUNIDAD</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.buttonOutline}>
+                <TouchableOpacity
+                  style={styles.buttonOutline}
+                  onPress={() => navigation.navigate("Ordenar")}
+                >
                   <Text style={styles.buttonOutlineText}>ORDENAR</Text>
                 </TouchableOpacity>
               </View>
@@ -76,20 +79,6 @@ export default function ComunidadesScreen() {
           </View>
         ))}
       </ScrollView>
-
-      {/* Barra de navegación inferior alineada */}
-      <View style={styles.navBar}>
-        {[
-          { icon: "people", label: "COMUNIDADES" },
-          { icon: "home", label: "INICIO" },
-          { icon: "map", label: "MAPA" },
-        ].map((item, index) => (
-          <TouchableOpacity key={index} style={styles.navItem}>
-            <Ionicons name={item.icon} size={24} color="#1F1F1F" />
-            <Text style={styles.navText}>{item.label}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
     </SafeAreaView>
   );
 }
@@ -155,15 +144,4 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   buttonOutlineText: { color: "#FF8C00", fontWeight: "bold", fontSize: 12 },
-  navBar: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: width * 0.08,
-    paddingVertical: 12,
-    borderTopWidth: 1,
-    borderTopColor: "#FF8C00",
-    backgroundColor: "#FFF",
-  },
-  navItem: { alignItems: "center", flex: 1 },
-  navText: { fontSize: 12, color: "#1F1F1F", marginTop: 4, textAlign: "center" },
 });

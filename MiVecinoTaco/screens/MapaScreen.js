@@ -13,7 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 const { width } = Dimensions.get("window");
 
-export default function MapaScreen() {
+export default function MapaScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#FF8C00" barStyle="light-content" />
@@ -25,11 +25,8 @@ export default function MapaScreen() {
           <Text style={styles.headerTitle}>Mi Vecino el Taco</Text>
         </View>
         <View style={styles.headerIcons}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Notificaciones")}>
             <Ionicons name="notifications-outline" size={24} color="#1F1F1F" />
-          </TouchableOpacity>
-          <TouchableOpacity style={{ marginLeft: 16 }}>
-            <Ionicons name="person-circle-outline" size={28} color="#1F1F1F" />
           </TouchableOpacity>
         </View>
       </View>
@@ -44,20 +41,6 @@ export default function MapaScreen() {
           style={styles.mapImage}
           resizeMode="cover"
         />
-      </View>
-
-      {/* Barra de navegación inferior alineada */}
-      <View style={styles.navBar}>
-        {[
-          { icon: "people", label: "COMUNIDADES" },
-          { icon: "home", label: "INICIO" },
-          { icon: "map", label: "MAPA" },
-        ].map((item, index) => (
-          <TouchableOpacity key={index} style={styles.navItem}>
-            <Ionicons name={item.icon} size={24} color="#1F1F1F" />
-            <Text style={styles.navText}>{item.label}</Text>
-          </TouchableOpacity>
-        ))}
       </View>
     </SafeAreaView>
   );
@@ -98,15 +81,4 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   mapImage: { width: "100%", height: "100%" },
-  navBar: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: width * 0.08,
-    paddingVertical: 12,
-    borderTopWidth: 1,
-    borderTopColor: "#FF8C00",
-    backgroundColor: "#FFF",
-  },
-  navItem: { alignItems: "center", flex: 1 },
-  navText: { fontSize: 12, color: "#1F1F1F", marginTop: 4, textAlign: "center" },
 });

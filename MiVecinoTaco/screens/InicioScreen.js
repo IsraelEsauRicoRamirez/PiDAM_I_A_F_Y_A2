@@ -1,20 +1,10 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  StatusBar,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-  Dimensions,
-} from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, StatusBar, ScrollView, TouchableOpacity, Image, Dimensions, } from "react-native";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 
 const { width } = Dimensions.get("window");
 
-export default function InicioScreen() {
+export default function InicioScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#FF8C00" barStyle="light-content" />
@@ -26,11 +16,8 @@ export default function InicioScreen() {
           <Text style={styles.headerTitle}>Mi Vecino el Taco</Text>
         </View>
         <View style={styles.headerIcons}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Notificaciones")}>
             <Ionicons name="notifications-outline" size={24} color="#1F1F1F" />
-          </TouchableOpacity>
-          <TouchableOpacity style={{ marginLeft: 16 }}>
-            <Ionicons name="person-circle-outline" size={28} color="#1F1F1F" />
           </TouchableOpacity>
         </View>
       </View>
@@ -65,20 +52,6 @@ export default function InicioScreen() {
           </View>
         ))}
       </ScrollView>
-
-      {/* Barra de navegación inferior alineada */}
-      <View style={styles.navBar}>
-        {[
-          { icon: "people", label: "COMUNIDADES" },
-          { icon: "home", label: "INICIO" },
-          { icon: "map", label: "MAPA" },
-        ].map((item, index) => (
-          <TouchableOpacity key={index} style={styles.navItem}>
-            <Ionicons name={item.icon} size={24} color="#1F1F1F" />
-            <Text style={styles.navText}>{item.label}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
     </SafeAreaView>
   );
 }
@@ -132,15 +105,4 @@ const styles = StyleSheet.create({
   },
   name: { fontSize: 16, fontWeight: "bold", color: "#1F1F1F" },
   details: { fontSize: 14, color: "#666", marginTop: 4 },
-  navBar: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: width * 0.08,
-    paddingVertical: 12,
-    borderTopWidth: 1,
-    borderTopColor: "#FF8C00",
-    backgroundColor: "#FFF",
-  },
-  navItem: { alignItems: "center", flex: 1 },
-  navText: { fontSize: 12, color: "#1F1F1F", marginTop: 4, textAlign: "center" },
 });
