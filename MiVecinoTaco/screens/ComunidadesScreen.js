@@ -19,7 +19,11 @@ export default function ComunidadesScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#FF8C00" barStyle="light-content" />
 
+<<<<<<< HEAD
 
+=======
+      
+>>>>>>> 7efb723c98d97e2dc3b3167efc1a9342e25a6eb6
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.logoTitle}
@@ -35,10 +39,18 @@ export default function ComunidadesScreen({ navigation }) {
         </View>
       </View>
 
+<<<<<<< HEAD
      
       <Text style={styles.sectionTitle}>COMUNIDADES</Text>
       <Text style={styles.subTitle}>2 TAQUERÍAS GUARDADAS</Text>
 
+=======
+      
+      <Text style={styles.sectionTitle}>COMUNIDADES</Text>
+      <Text style={styles.subTitle}>2 TAQUERÍAS GUARDADAS</Text>
+
+      
+>>>>>>> 7efb723c98d97e2dc3b3167efc1a9342e25a6eb6
       <ScrollView contentContainerStyle={styles.scroll}>
         {[
           {

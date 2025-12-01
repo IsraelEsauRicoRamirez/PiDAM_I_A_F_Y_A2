@@ -18,7 +18,6 @@ export default function MapaScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#FF8C00" barStyle="light-content" />
 
-
       <View style={styles.header}>
         <TouchableOpacity 
           style={styles.logoTitle}

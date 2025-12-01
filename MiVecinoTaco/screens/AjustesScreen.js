@@ -71,7 +71,6 @@ export default function AjustesScreen() {
           />
         </View>
 
-
         <Text style={styles.section}>CUENTA</Text>
         {["MÉTODOS DE PAGO", "PRIVACIDAD Y SEGURIDAD", "IDIOMA"].map((item, index) => (
           <TouchableOpacity key={index} style={styles.linkRow}>
@@ -79,7 +78,6 @@ export default function AjustesScreen() {
             <Ionicons name="chevron-forward" size={20} color="#FF8C00" />
           </TouchableOpacity>
         ))}
-
 
         <Text style={styles.section}>SOPORTE</Text>
         {["CENTRO DE AYUDA", "TÉRMINOS Y CONDICIONES"].map((item, index) => (

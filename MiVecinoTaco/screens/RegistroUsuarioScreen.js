@@ -32,7 +32,6 @@ export default function RegistroUsuarioScreen({ navigation }) {
 
   return (
     <ImageBackground source={require("../assets/fondoTacos.png")} style={styles.background}>
-
       <View style={styles.overlay}>
         <SafeAreaView style={styles.container}>
           <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
@@ -43,7 +42,6 @@ export default function RegistroUsuarioScreen({ navigation }) {
               <Text style={styles.title}>Crear Cuenta</Text>
               <Text style={styles.subtitle}>Únete a Mi Vecino el Taco</Text>
             </View>
-
 
             <TextInput
               style={styles.input}

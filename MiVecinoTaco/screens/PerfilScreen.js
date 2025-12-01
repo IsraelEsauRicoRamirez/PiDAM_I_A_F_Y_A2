@@ -60,7 +60,6 @@ export default function PerfilScreen() {
           ))}
         </View>
 
-
         <View style={styles.optionsBox}>
           <TouchableOpacity style={styles.optionRow}>
             <Ionicons name="create-outline" size={22} color="#FF8C00" />
@@ -79,7 +78,6 @@ export default function PerfilScreen() {
             <Text style={styles.optionText}>Ajustes</Text>
           </TouchableOpacity>
         </View>
-
 
         <View style={styles.footer}>
           <TouchableOpacity style={styles.logoutButton}>
