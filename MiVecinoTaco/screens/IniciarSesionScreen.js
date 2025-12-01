@@ -10,10 +10,16 @@ import {
   ScrollView,
   Image,
   ImageBackground,
+  Alert,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+
+// IMPORTAMOS EL CONTROLADOR
+import { UsuarioController } from "../controllers/UsuarioController";
 
 export default function IniciarSesionScreen({ navigation }) {
+  // Instanciamos el controlador
+  const controller = new UsuarioController();
+
   const [correo, setCorreo] = useState("");
   const [contrasena, setContrasena] = useState("");
 
@@ -21,31 +27,44 @@ export default function IniciarSesionScreen({ navigation }) {
     navigation.navigate("Registro");
   };
 
-  const iniciarSesion = () => {
-    navigation.replace("Tabs");
+  // LOGICA LOGIN CON BD
+  const iniciarSesion = async () => {
+    if (!correo || !contrasena) {
+      Alert.alert("Error", "Ingresa correo y contraseña");
+      return;
+    }
+
+    const usuarioEncontrado = await controller.validarLogin(
+      correo,
+      contrasena
+    );
+
+    if (usuarioEncontrado) {
+      // AQUÍ PODRÍAS GUARDAR EL ID DE USUARIO EN ASYNCSTORAGE O CONTEXTO SI QUISIERAS
+      // console.log("Usuario logueado:", usuarioEncontrado.nombre);
+      navigation.replace("Tabs");
+    } else {
+      Alert.alert("Error", "Correo o contraseña incorrectos");
+    }
   };
 
   return (
-    <ImageBackground source={require("../assets/fondoTacos.png")} style={styles.background}>
+    <ImageBackground
+      source={require("../assets/fondoTacos.png")}
+      style={styles.background}
+    >
       <View style={styles.overlay}>
         <SafeAreaView style={styles.container}>
           <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
+
           <ScrollView contentContainerStyle={styles.scroll}>
-
             <View style={styles.header}>
-              <TouchableOpacity
-                style={styles.logoTitle}
-                onPress={() => navigation.navigate("Notificaciones")}
-              >
-                <Image source={require("../assets/tacoLogo.png")} style={styles.logo} />
-                <Text style={styles.headerTitle}>Mi Vecino el Taco</Text>
-              </TouchableOpacity>
-
-              <View style={styles.headerIcons}>
-                <TouchableOpacity onPress={() => navigation.navigate("Notificaciones")}>
-                  <Ionicons name="notifications-outline" size={24} color="#1F1F1F" />
-                </TouchableOpacity>
-              </View>
+              <Image
+                source={require("../assets/tacoLogo.png")}
+                style={styles.logo}
+              />
+              <Text style={styles.title}>INICIAR SESIÓN</Text>
+              <Text style={styles.subtitle}>MI VECINO EL TACO</Text>
             </View>
 
             <TextInput
@@ -72,16 +91,18 @@ export default function IniciarSesionScreen({ navigation }) {
             </TouchableOpacity>
 
             <TouchableOpacity>
-              <Text style={styles.link}>¿OLVIDASTE TU CONTRASEÑA?</Text>
+              <Text style={styles.link}>
+                ¿OLVIDASTE TU CONTRASEÑA?
+              </Text>
             </TouchableOpacity>
 
             <View style={styles.footer}>
               <Text style={styles.footerText}>¿NO TIENES CUENTA? </Text>
+
               <TouchableOpacity onPress={irARegistro}>
                 <Text style={{ color: "#FF8C00" }}> REGISTRARSE</Text>
               </TouchableOpacity>
             </View>
-
           </ScrollView>
         </SafeAreaView>
       </View>
@@ -90,17 +111,49 @@ export default function IniciarSesionScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  background: { flex: 1 },
+  background: {
+    flex: 1,
+  },
+
   overlay: {
     flex: 1,
     backgroundColor: "rgba(255, 255, 255, 0.16)",
   },
-  container: { flex: 1 },
-  scroll: { flexGrow: 1, justifyContent: "center", padding: 20 },
-  header: { alignItems: "center", marginBottom: 30 },
-  logo: { width: 100, height: 100, marginBottom: 16 },
-  title: { fontSize: 30, fontWeight: "bold", color: "#FFB86A" },
-  subtitle: { fontSize: 16, color: "#666", marginTop: 4, fontWeight: "bold" },
+
+  container: {
+    flex: 1,
+  },
+
+  scroll: {
+    flexGrow: 1,
+    justifyContent: "center",
+    padding: 20,
+  },
+
+  header: {
+    alignItems: "center",
+    marginBottom: 30,
+  },
+
+  logo: {
+    width: 100,
+    height: 100,
+    marginBottom: 16,
+  },
+
+  title: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "#FFB86A",
+  },
+
+  subtitle: {
+    fontSize: 16,
+    color: "#666",
+    marginTop: 4,
+    fontWeight: "bold",
+  },
+
   input: {
     backgroundColor: "#FFF",
     borderRadius: 12,
@@ -122,13 +175,28 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     elevation: 4,
   },
+
   buttonText: {
     color: "#FFF",
     fontWeight: "bold",
     fontSize: 16,
   },
 
-  link: { color: "#FFB86A", fontWeight: "600", marginTop: 16, textAlign: "center" },
-  footer: { flexDirection: "row", justifyContent: "center", marginTop: 24 },
-  footerText: { color: "#666", fontSize: 15 },
+  link: {
+    color: "#FFB86A",
+    fontWeight: "600",
+    marginTop: 16,
+    textAlign: "center",
+  },
+
+  footer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 24,
+  },
+
+  footerText: {
+    color: "#666",
+    fontSize: 15,
+  },
 });

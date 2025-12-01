@@ -1,16 +1,16 @@
-
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
+
 import InicioSesionScreen from "./screens/IniciarSesionScreen";
 import RegistroUsuarioScreen from "./screens/RegistroUsuarioScreen";
+
 import InicioScreen from "./screens/InicioScreen";
 import ComunidadesScreen from "./screens/ComunidadesScreen";
 import MapaScreen from "./screens/MapaScreen";
-import PerfilScreen from "./screens/PerfilScreen"; 
-import AjustesScreen from "./screens/AjustesScreen";
+
 import VerComunidadScreen from "./screens/VerComunidadScreen";
 import OrdenarScreen from "./screens/OrdenarScreen";
 import NotificacionesScreen from './screens/NotificacionesScreen';
@@ -60,16 +60,6 @@ function Tabs() {
           ),
         }}
       />
-     
-      <Tab.Screen
-        name="PERFIL"
-        component={PerfilScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person" size={size} color={color} />
-          ),
-        }}
-      />
     </Tab.Navigator>
   );
 }
@@ -90,8 +80,6 @@ export default function App() {
           component={NotificacionesScreen}
           options={{ headerShown: false }}
         />
-        
-         <Stack.Screen name="Ajustes" component={AjustesScreen} />
 
         <Stack.Screen name="Tabs" component={Tabs} />
       </Stack.Navigator>

@@ -18,14 +18,12 @@ export default function MapaScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#FF8C00" barStyle="light-content" />
 
+      {/* Header con logo + título + íconos */}
       <View style={styles.header}>
-        <TouchableOpacity 
-          style={styles.logoTitle}
-          onPress={() => navigation.navigate("Notificaciones")}
-        >
+        <View style={styles.logoTitle}>
           <Image source={require("../assets/tacoLogo.png")} style={styles.logo} />
           <Text style={styles.headerTitle}>Mi Vecino el Taco</Text>
-        </TouchableOpacity>
+        </View>
         <View style={styles.headerIcons}>
           <TouchableOpacity onPress={() => navigation.navigate("Notificaciones")}>
             <Ionicons name="notifications-outline" size={24} color="#1F1F1F" />
@@ -33,12 +31,13 @@ export default function MapaScreen({ navigation }) {
         </View>
       </View>
 
-  
+      {/* Título de sección */}
       <Text style={styles.sectionTitle}>MAPA DE TAQUERÍAS</Text>
 
+      {/* Imagen del mapa (tú colocas mapa.png en assets) */}
       <View style={styles.mapContainer}>
         <Image
-          source={require("../assets/mapa.jpg")}
+          source={require("../assets/mapa.png")}
           style={styles.mapImage}
           resizeMode="cover"
         />

@@ -20,21 +20,27 @@ export default function ComunidadesScreen({ navigation }) {
       <StatusBar backgroundColor="#FF8C00" barStyle="light-content" />
 
       <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.logoTitle}
-          onPress={() => navigation.navigate("Notificaciones")}
-        >
-          <Image source={require("../assets/tacoLogo.png")} style={styles.logo} />
+        <View style={styles.logoTitle}>
+          <Image
+            source={require("../assets/tacoLogo.png")}
+            style={styles.logo}
+          />
           <Text style={styles.headerTitle}>Mi Vecino el Taco</Text>
-        </TouchableOpacity>
+        </View>
+
         <View style={styles.headerIcons}>
-          <TouchableOpacity onPress={() => navigation.navigate("Notificaciones")}>
-            <Ionicons name="notifications-outline" size={24} color="#1F1F1F" />
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Notificaciones")}
+          >
+            <Ionicons
+              name="notifications-outline"
+              size={24}
+              color="#1F1F1F"
+            />
           </TouchableOpacity>
         </View>
       </View>
 
-     
       <Text style={styles.sectionTitle}>COMUNIDADES</Text>
       <Text style={styles.subTitle}>2 TAQUERÍAS GUARDADAS</Text>
 
@@ -57,11 +63,16 @@ export default function ComunidadesScreen({ navigation }) {
         ].map((taco, index) => (
           <View key={index} style={styles.card}>
             <Image source={taco.imagen} style={styles.cardImage} />
+
             <View style={styles.cardContent}>
               <Text style={styles.name}>{taco.nombre}</Text>
               <Text style={styles.details}>{taco.direccion}</Text>
-              <Text style={styles.details}>{taco.miembros} · {taco.distancia}</Text>
+              <Text style={styles.details}>
+                {taco.miembros} · {taco.distancia}
+              </Text>
+
               <Text style={styles.rating}>⭐ 4.9</Text>
+
               <View style={styles.buttonRow}>
                 <TouchableOpacity
                   style={styles.button}
@@ -69,6 +80,7 @@ export default function ComunidadesScreen({ navigation }) {
                 >
                   <Text style={styles.buttonText}>VER COMUNIDAD</Text>
                 </TouchableOpacity>
+
                 <TouchableOpacity
                   style={styles.buttonOutline}
                   onPress={() => navigation.navigate("Ordenar")}
@@ -85,7 +97,11 @@ export default function ComunidadesScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#FFFFFF" },
+  container: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+  },
+
   header: {
     backgroundColor: "#FF8C00",
     flexDirection: "row",
@@ -98,10 +114,30 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     elevation: 4,
   },
-  logoTitle: { flexDirection: "row", alignItems: "center" },
-  logo: { width: 48, height: 48, resizeMode: "contain", marginRight: 10 },
-  headerTitle: { fontSize: 18, fontWeight: "bold", color: "#1F1F1F" },
-  headerIcons: { flexDirection: "row", alignItems: "center" },
+
+  logoTitle: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  logo: {
+    width: 48,
+    height: 48,
+    resizeMode: "contain",
+    marginRight: 10,
+  },
+
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#1F1F1F",
+  },
+
+  headerIcons: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
   sectionTitle: {
     fontSize: 22,
     fontWeight: "bold",
@@ -109,13 +145,19 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 15,
   },
+
   subTitle: {
     fontSize: 14,
     color: "#666",
     textAlign: "center",
     marginBottom: 10,
   },
-  scroll: { paddingHorizontal: 20, paddingBottom: 20 },
+
+  scroll: {
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+  },
+
   card: {
     backgroundColor: "#FFF",
     borderRadius: 12,
@@ -124,19 +166,54 @@ const styles = StyleSheet.create({
     borderColor: "#FF8C00",
     overflow: "hidden",
   },
-  cardImage: { width: "100%", height: 160 },
-  cardContent: { padding: 14 },
-  name: { fontSize: 16, fontWeight: "bold", color: "#1F1F1F", marginBottom: 4 },
-  details: { fontSize: 14, color: "#666", marginBottom: 2 },
-  rating: { fontSize: 14, color: "#FF8C00", marginVertical: 6 },
-  buttonRow: { flexDirection: "row", justifyContent: "space-between", marginTop: 10 },
+
+  cardImage: {
+    width: "100%",
+    height: 160,
+  },
+
+  cardContent: {
+    padding: 14,
+  },
+
+  name: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#1F1F1F",
+    marginBottom: 4,
+  },
+
+  details: {
+    fontSize: 14,
+    color: "#666",
+    marginBottom: 2,
+  },
+
+  rating: {
+    fontSize: 14,
+    color: "#FF8C00",
+    marginVertical: 6,
+  },
+
+  buttonRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 10,
+  },
+
   button: {
     backgroundColor: "#FF8C00",
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: 8,
   },
-  buttonText: { color: "#FFF", fontWeight: "bold", fontSize: 12 },
+
+  buttonText: {
+    color: "#FFF",
+    fontWeight: "bold",
+    fontSize: 12,
+  },
+
   buttonOutline: {
     borderColor: "#FF8C00",
     borderWidth: 1,
@@ -144,5 +221,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     borderRadius: 8,
   },
-  buttonOutlineText: { color: "#FF8C00", fontWeight: "bold", fontSize: 12 },
+
+  buttonOutlineText: {
+    color: "#FF8C00",
+    fontWeight: "bold",
+    fontSize: 12,
+  },
 });
