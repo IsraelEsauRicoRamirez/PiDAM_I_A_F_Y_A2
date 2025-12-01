@@ -23,7 +23,7 @@ export default function PerfilScreen() {
       <Text style={styles.title}>MI PERFIL</Text>
 
       <ScrollView contentContainerStyle={styles.scroll}>
-        {/* Bloque de perfil */}
+    
         <View style={styles.profileBox}>
           <Ionicons name="person-circle-outline" size={80} color="#FF8C00" />
           <Text style={styles.profileName}>Pompompurin</Text>
@@ -32,7 +32,6 @@ export default function PerfilScreen() {
           <Text style={styles.profileAddress}>📍 Calle Morales 456, Col. Juárez</Text>
         </View>
 
-        {/* Preferencias */}
         <View style={styles.sectionBox}>
           <Text style={styles.sectionTitle}>PREFERENCIAS</Text>
           <Text style={styles.sectionItem}>🔔 Notificaciones: Activadas</Text>
@@ -40,13 +39,12 @@ export default function PerfilScreen() {
           <Text style={styles.sectionItem}>🌙 Modo Oscuro: Desactivado</Text>
         </View>
 
-        {/* Favoritos */}
+     
         <View style={styles.sectionBox}>
           <Text style={styles.sectionTitle}>FAVORITOS</Text>
           <Text style={styles.sectionItem}>❤️ 5 productos guardados</Text>
         </View>
 
-        {/* Historial de pedidos */}
         <View style={styles.sectionBox}>
           <Text style={styles.sectionTitle}>HISTORIAL DE PEDIDOS</Text>
           {pedidos.map((item, idx) => (
@@ -62,7 +60,7 @@ export default function PerfilScreen() {
           ))}
         </View>
 
-        {/* Opciones */}
+
         <View style={styles.optionsBox}>
           <TouchableOpacity style={styles.optionRow}>
             <Ionicons name="create-outline" size={22} color="#FF8C00" />
@@ -72,13 +70,17 @@ export default function PerfilScreen() {
             <Ionicons name="heart-outline" size={22} color="#FF8C00" />
             <Text style={styles.optionText}>Mis Favoritos</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.optionRow}
+            onPress={() => navigation.navigate("Ajustes")}
+          ></TouchableOpacity>
           <TouchableOpacity style={styles.optionRow}>
             <Ionicons name="settings-outline" size={22} color="#FF8C00" />
             <Text style={styles.optionText}>Ajustes</Text>
           </TouchableOpacity>
         </View>
 
-        {/* Footer */}
+
         <View style={styles.footer}>
           <TouchableOpacity style={styles.logoutButton}>
             <Text style={styles.logoutText}>Cerrar Sesión</Text>

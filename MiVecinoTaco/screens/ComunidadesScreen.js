@@ -19,12 +19,15 @@ export default function ComunidadesScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#FF8C00" barStyle="light-content" />
 
-      {/* Header con logo + título + íconos */}
+
       <View style={styles.header}>
-        <View style={styles.logoTitle}>
+        <TouchableOpacity
+          style={styles.logoTitle}
+          onPress={() => navigation.navigate("Notificaciones")}
+        >
           <Image source={require("../assets/tacoLogo.png")} style={styles.logo} />
           <Text style={styles.headerTitle}>Mi Vecino el Taco</Text>
-        </View>
+        </TouchableOpacity>
         <View style={styles.headerIcons}>
           <TouchableOpacity onPress={() => navigation.navigate("Notificaciones")}>
             <Ionicons name="notifications-outline" size={24} color="#1F1F1F" />
@@ -32,11 +35,10 @@ export default function ComunidadesScreen({ navigation }) {
         </View>
       </View>
 
-      {/* Título de sección */}
+     
       <Text style={styles.sectionTitle}>COMUNIDADES</Text>
       <Text style={styles.subTitle}>2 TAQUERÍAS GUARDADAS</Text>
 
-      {/* Lista de taquerías guardadas */}
       <ScrollView contentContainerStyle={styles.scroll}>
         {[
           {

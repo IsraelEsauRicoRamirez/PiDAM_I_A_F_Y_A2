@@ -32,9 +32,19 @@ export default function IniciarSesionScreen({ navigation }) {
           <ScrollView contentContainerStyle={styles.scroll}>
 
             <View style={styles.header}>
-              <Image source={require("../assets/tacoLogo.png")} style={styles.logo} />
-              <Text style={styles.title}>INICIAR SESIÓN</Text>
-              <Text style={styles.subtitle}>MI VECINO EL TACO</Text>
+              <TouchableOpacity
+                style={styles.logoTitle}
+                onPress={() => navigation.navigate("Notificaciones")}
+              >
+                <Image source={require("../assets/tacoLogo.png")} style={styles.logo} />
+                <Text style={styles.headerTitle}>Mi Vecino el Taco</Text>
+              </TouchableOpacity>
+
+              <View style={styles.headerIcons}>
+                <TouchableOpacity onPress={() => navigation.navigate("Notificaciones")}>
+                  <Ionicons name="notifications-outline" size={24} color="#1F1F1F" />
+                </TouchableOpacity>
+              </View>
             </View>
 
             <TextInput

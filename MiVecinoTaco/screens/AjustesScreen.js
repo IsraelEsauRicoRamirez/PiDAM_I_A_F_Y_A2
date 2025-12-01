@@ -18,7 +18,7 @@ export default function AjustesScreen() {
   const [ubicacion, setUbicacion] = React.useState(false);
   const [modoOscuro, setModoOscuro] = React.useState(false);
 
-  // Funciones para abrir enlaces (puedes personalizar las URLs)
+
   const abrirWhatsApp = () => Linking.openURL("https://wa.me/5210000000000");
   const abrirFacebook = () => Linking.openURL("https://facebook.com/mivecinoeltaco");
   const abrirCorreo = () => Linking.openURL("mailto:contacto@mivecinoeltaco.com");
@@ -27,10 +27,10 @@ export default function AjustesScreen() {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#FF8C00" barStyle="light-content" />
 
-      {/* Título de Ajustes */}
+
       <Text style={styles.title}>AJUSTES</Text>
 
-      {/* Perfil presionable */}
+
       <TouchableOpacity style={styles.profile}>
         <Ionicons name="person-circle-outline" size={60} color="#FF8C00" />
         <View style={{ marginLeft: 12 }}>
@@ -39,9 +39,9 @@ export default function AjustesScreen() {
         </View>
       </TouchableOpacity>
 
-      {/* Secciones */}
+ 
       <ScrollView contentContainerStyle={styles.scroll}>
-        {/* Preferencias */}
+  
         <Text style={styles.section}>PREFERENCIAS</Text>
         <View style={styles.settingRow}>
           <Text style={styles.settingLabel}>NOTIFICACIONES</Text>
@@ -71,7 +71,7 @@ export default function AjustesScreen() {
           />
         </View>
 
-        {/* Cuenta */}
+
         <Text style={styles.section}>CUENTA</Text>
         {["MÉTODOS DE PAGO", "PRIVACIDAD Y SEGURIDAD", "IDIOMA"].map((item, index) => (
           <TouchableOpacity key={index} style={styles.linkRow}>
@@ -80,7 +80,7 @@ export default function AjustesScreen() {
           </TouchableOpacity>
         ))}
 
-        {/* Soporte */}
+
         <Text style={styles.section}>SOPORTE</Text>
         {["CENTRO DE AYUDA", "TÉRMINOS Y CONDICIONES"].map((item, index) => (
           <TouchableOpacity key={index} style={styles.linkRow}>
@@ -89,7 +89,7 @@ export default function AjustesScreen() {
           </TouchableOpacity>
         ))}
 
-        {/* Footer */}
+ 
         <View style={styles.footer}>
           <Text style={styles.version}>VERSIÓN 1.0.0</Text>
           <Text style={styles.brand}>MI VECINO EL TACO ©2025</Text>

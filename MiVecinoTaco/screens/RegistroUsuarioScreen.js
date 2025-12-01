@@ -32,20 +32,19 @@ export default function RegistroUsuarioScreen({ navigation }) {
 
   return (
     <ImageBackground source={require("../assets/fondoTacos.png")} style={styles.background}>
-      {/* Overlay blanco semitransparente */}
+
       <View style={styles.overlay}>
         <SafeAreaView style={styles.container}>
           <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
           <ScrollView contentContainerStyle={styles.scroll}>
 
-            {/* Logo y título */}
             <View style={styles.header}>
               <Image source={require("../assets/tacoLogo.png")} style={styles.logo} />
               <Text style={styles.title}>Crear Cuenta</Text>
               <Text style={styles.subtitle}>Únete a Mi Vecino el Taco</Text>
             </View>
 
-            {/* Inputs */}
+
             <TextInput
               style={styles.input}
               placeholder="Nombre completo"
@@ -87,7 +86,7 @@ export default function RegistroUsuarioScreen({ navigation }) {
               onChangeText={setConfirmar}
             />
 
-            {/* Switch de términos */}
+    
             <View style={styles.switchRow}>
               <Text style={styles.switchLabel}>Acepto los términos y condiciones</Text>
               <Switch
@@ -98,12 +97,11 @@ export default function RegistroUsuarioScreen({ navigation }) {
               />
             </View>
 
-            {/* Botón principal */}
             <TouchableOpacity style={styles.button} onPress={registrarUsuario}>
               <Text style={styles.buttonText}>REGISTRARSE</Text>
             </TouchableOpacity>
 
-            {/* Footer */}
+      
             <View style={styles.footer}>
               <Text style={styles.footerText}>Ya tienes cuenta: </Text>
               <TouchableOpacity onPress={volverInicioSesion}>
@@ -121,13 +119,13 @@ const styles = StyleSheet.create({
   background: { flex: 1 },
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(255, 255, 255, 0.14)", // capa blanca semitransparente
+    backgroundColor: "rgba(255, 255, 255, 0.14)", 
   },
   container: { flex: 1 },
   scroll: { flexGrow: 1, justifyContent: "center", padding: 20 },
   header: { alignItems: "center", marginBottom: 30 },
   logo: { width: 100, height: 100, marginBottom: 16 },
-  title: { fontSize: 26, fontWeight: "bold", color: "#FFB86A" }, // naranja principal
+  title: { fontSize: 26, fontWeight: "bold", color: "#FFB86A" },
   subtitle: { fontSize: 16, color: "#666", marginTop: 4 },
   input: {
     backgroundColor: "#FFF",
@@ -136,13 +134,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: "#FEE685", // amarillo suave
+    borderColor: "#FEE685", 
     color: "#1F2937",
   },
   switchRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 20 },
   switchLabel: { fontSize: 14, color: "#ffaf03ff" },
   button: {
-    backgroundColor: "#FFB86A", // naranja principal
+    backgroundColor: "#FFB86A", 
     borderRadius: 12,
     paddingVertical: 16,
     alignItems: "center",
