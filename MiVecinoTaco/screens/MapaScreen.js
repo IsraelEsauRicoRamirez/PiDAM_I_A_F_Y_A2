@@ -37,7 +37,7 @@ export default function MapaScreen({ navigation }) {
       {/* Imagen del mapa (tú colocas mapa.png en assets) */}
       <View style={styles.mapContainer}>
         <Image
-          source={require("../assets/mapa.png")}
+          source={require("../assets/mapa.jpg")}
           style={styles.mapImage}
           resizeMode="cover"
         />

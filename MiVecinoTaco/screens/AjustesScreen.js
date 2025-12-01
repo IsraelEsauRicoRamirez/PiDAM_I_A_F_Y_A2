@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -12,17 +12,44 @@ import {
   Linking,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useFocusEffect } from "@react-navigation/native";
 
-export default function AjustesScreen() {
-  const [notificaciones, setNotificaciones] = React.useState(true);
-  const [ubicacion, setUbicacion] = React.useState(false);
-  const [modoOscuro, setModoOscuro] = React.useState(false);
+// Importamos el controlador para obtener los datos reales del usuario
+import { UsuarioController } from "../controllers/UsuarioController";
 
+export default function AjustesScreen({ navigation }) {
+  // Instanciamos el controlador
+  const userCtrl = new UsuarioController();
+
+  // Estados para los datos del usuario y los switches
+  const [usuario, setUsuario] = useState(null);
+  const [notificaciones, setNotificaciones] = useState(true);
+  const [ubicacion, setUbicacion] = useState(false);
+  const [modoOscuro, setModoOscuro] = useState(false);
+
+  // Cargar datos del usuario cada vez que entramos a la pantalla
+  useFocusEffect(
+    useCallback(() => {
+      const currentUser = userCtrl.getUsuarioActivo();
+      if (currentUser) {
+        setUsuario(currentUser);
+      } else {
+        // Si no hay usuario, mandarlo al login
+        navigation.replace("InicioSesion");
+      }
+    }, [])
+  );
+
+  // Función para cerrar sesión
+  const handleCerrarSesion = () => {
+    userCtrl.cerrarSesion();
+    navigation.replace("InicioSesion");
+  };
+
+  // Enlaces a redes sociales
   const abrirWhatsApp = () => Linking.openURL("https://wa.me/5210000000000");
-  const abrirFacebook = () =>
-    Linking.openURL("https://facebook.com/mivecinoeltaco");
-  const abrirCorreo = () =>
-    Linking.openURL("mailto:contacto@mivecinoeltaco.com");
+  const abrirFacebook = () => Linking.openURL("https://facebook.com/mivecinoeltaco");
+  const abrirCorreo = () => Linking.openURL("mailto:contacto@mivecinoeltaco.com");
 
   return (
     <SafeAreaView style={styles.container}>
@@ -30,13 +57,19 @@ export default function AjustesScreen() {
 
       <Text style={styles.title}>AJUSTES</Text>
 
-      <TouchableOpacity style={styles.profile}>
+      {/* SECCIÓN DE PERFIL (Ahora dinámica) */}
+      <View style={styles.profile}>
         <Ionicons name="person-circle-outline" size={60} color="#FF8C00" />
         <View style={{ marginLeft: 12 }}>
-          <Text style={styles.profileName}>Pompompurin</Text>
-          <Text style={styles.profileEmail}>pompomp@p.pupedu.mx</Text>
+          {/* Aquí mostramos el nombre y correo real del usuario */}
+          <Text style={styles.profileName}>
+            {usuario ? usuario.nombre : "Cargando..."}
+          </Text>
+          <Text style={styles.profileEmail}>
+            {usuario ? usuario.correo : ""}
+          </Text>
         </View>
-      </TouchableOpacity>
+      </View>
 
       <ScrollView contentContainerStyle={styles.scroll}>
         <Text style={styles.section}>PREFERENCIAS</Text>
@@ -118,7 +151,8 @@ export default function AjustesScreen() {
             </TouchableOpacity>
           </View>
 
-          <TouchableOpacity style={styles.logoutButton}>
+          {/* Botón Cerrar Sesión funcionando */}
+          <TouchableOpacity style={styles.logoutButton} onPress={handleCerrarSesion}>
             <Text style={styles.logoutText}>Cerrar Sesión</Text>
           </TouchableOpacity>
         </View>
@@ -145,6 +179,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderBottomWidth: 1,
     borderColor: "#FF8C00",
+    backgroundColor: "#FFF8F0", // Fondo ligero añadido para resaltar perfil
   },
   profileName: {
     fontSize: 16,

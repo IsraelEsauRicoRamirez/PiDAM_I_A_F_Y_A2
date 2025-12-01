@@ -8,21 +8,16 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
-  Dimensions,
 } from "react-native";
-
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 
 import { UsuarioController } from "../controllers/UsuarioController";
 import { FavoritoController } from "../controllers/FavoritoController";
 
-const { width } = Dimensions.get("window");
-
 export default function InicioScreen({ navigation }) {
   const userCtrl = new UsuarioController();
   const favCtrl = new FavoritoController();
-
   const [nombreUsuario, setNombreUsuario] = useState("AMIGO");
   const [misFavoritos, setMisFavoritos] = useState([]);
   const [usuarioId, setUsuarioId] = useState(null);
@@ -62,17 +57,14 @@ export default function InicioScreen({ navigation }) {
   // FUNCIÓN CORAZÓN
   const toggleHeart = async (taqueriaNombre) => {
     if (!usuarioId) return;
-
     const esFavorito = misFavoritos.includes(taqueriaNombre);
 
-    // Actualizamos UI inmediatamente para que se sienta rápido
     if (esFavorito) {
       setMisFavoritos((prev) => prev.filter((n) => n !== taqueriaNombre));
     } else {
       setMisFavoritos((prev) => [...prev, taqueriaNombre]);
     }
 
-    // Guardamos en BD en segundo plano
     await favCtrl.toggleFavorito(usuarioId, taqueriaNombre, esFavorito);
   };
 
@@ -91,6 +83,8 @@ export default function InicioScreen({ navigation }) {
         </View>
 
         <View style={styles.headerIcons}>
+          {/* AQUÍ ELIMINÉ EL ÍCONO DE AJUSTES QUE ESTABA ANTES */}
+          
           <TouchableOpacity
             onPress={() => navigation.navigate("Notificaciones")}
           >
@@ -112,7 +106,7 @@ export default function InicioScreen({ navigation }) {
         activeOpacity={0.9}
       >
         <Image
-          source={require("../assets/mapa.png")}
+          source={require("../assets/mapa.jpg")}
           style={styles.mapImage}
           resizeMode="cover"
         />
@@ -123,7 +117,6 @@ export default function InicioScreen({ navigation }) {
       <ScrollView contentContainerStyle={styles.scroll}>
         {taquerias.map((taco, index) => {
           const isFav = misFavoritos.includes(taco.nombre);
-
           return (
             <TouchableOpacity
               key={index}
@@ -138,7 +131,6 @@ export default function InicioScreen({ navigation }) {
                 </Text>
               </View>
 
-              {/* Click en Corazón -> Favoritos */}
               <TouchableOpacity
                 onPress={() => toggleHeart(taco.nombre)}
                 style={styles.heartArea}
@@ -162,7 +154,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFFFFF",
   },
-
   header: {
     backgroundColor: "#FF8C00",
     flexDirection: "row",
@@ -175,30 +166,25 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     elevation: 4,
   },
-
   logoTitle: {
     flexDirection: "row",
     alignItems: "center",
   },
-
   logo: {
     width: 48,
     height: 48,
     resizeMode: "contain",
     marginRight: 10,
   },
-
   headerTitle: {
     fontSize: 18,
     fontWeight: "bold",
     color: "#1F1F1F",
   },
-
   headerIcons: {
     flexDirection: "row",
     alignItems: "center",
   },
-
   greeting: {
     fontSize: 22,
     fontWeight: "bold",
@@ -207,7 +193,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
   },
-
   subHeader: {
     fontSize: 16,
     fontWeight: "bold",
@@ -215,7 +200,6 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginBottom: 10,
   },
-
   mapContainer: {
     height: 150,
     marginHorizontal: 20,
@@ -225,17 +209,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#FF8C00",
   },
-
   mapImage: {
     width: "100%",
     height: "100%",
   },
-
   scroll: {
     paddingHorizontal: 20,
     paddingBottom: 20,
   },
-
   card: {
     backgroundColor: "#FFF",
     borderRadius: 12,
@@ -247,19 +228,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#FF8C00",
   },
-
   name: {
     fontSize: 16,
     fontWeight: "bold",
     color: "#1F1F1F",
   },
-
   details: {
     fontSize: 14,
     color: "#666",
     marginTop: 4,
   },
-
   heartArea: {
     padding: 10,
   },

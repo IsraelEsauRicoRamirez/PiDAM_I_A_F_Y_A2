@@ -6,14 +6,13 @@ import { Ionicons } from "@expo/vector-icons";
 
 import InicioSesionScreen from "./screens/IniciarSesionScreen";
 import RegistroUsuarioScreen from "./screens/RegistroUsuarioScreen";
-
 import InicioScreen from "./screens/InicioScreen";
 import ComunidadesScreen from "./screens/ComunidadesScreen";
 import MapaScreen from "./screens/MapaScreen";
-
 import VerComunidadScreen from "./screens/VerComunidadScreen";
 import OrdenarScreen from "./screens/OrdenarScreen";
 import NotificacionesScreen from './screens/NotificacionesScreen';
+import AjustesScreen from './screens/AjustesScreen'; // Importamos la pantalla de Ajustes
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -60,6 +59,16 @@ function Tabs() {
           ),
         }}
       />
+      {/* AGREGADO: Pantalla Ajustes al final de la barra inferior */}
+      <Tab.Screen
+        name="AJUSTES"
+        component={AjustesScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="settings-outline" size={size} color={color} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }
@@ -81,6 +90,7 @@ export default function App() {
           options={{ headerShown: false }}
         />
 
+        {/* El Stack de Tabs contiene ahora Inicio, Comunidades, Mapa y Ajustes */}
         <Stack.Screen name="Tabs" component={Tabs} />
       </Stack.Navigator>
     </NavigationContainer>
