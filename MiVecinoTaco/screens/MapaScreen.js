@@ -18,7 +18,7 @@ export default function MapaScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#FF8C00" barStyle="light-content" />
 
-      {/* Header con logo + título + íconos */}
+      
       <View style={styles.header}>
         <View style={styles.logoTitle}>
           <Image source={require("../assets/tacoLogo.png")} style={styles.logo} />
@@ -31,10 +31,10 @@ export default function MapaScreen({ navigation }) {
         </View>
       </View>
 
-      {/* Título de sección */}
+      
       <Text style={styles.sectionTitle}>MAPA DE TAQUERÍAS</Text>
 
-      {/* Imagen del mapa (tú colocas mapa.png en assets) */}
+      
       <View style={styles.mapContainer}>
         <Image
           source={require("../assets/mapa.png")}

@@ -9,7 +9,7 @@ export default function InicioScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#FF8C00" barStyle="light-content" />
 
-      {/* Header con logo + título + íconos */}
+      
       <View style={styles.header}>
         <View style={styles.logoTitle}>
           <Image source={require("../assets/tacoLogo.png")} style={styles.logo} />
@@ -22,10 +22,10 @@ export default function InicioScreen({ navigation }) {
         </View>
       </View>
 
-      {/* Saludo */}
+      
       <Text style={styles.greeting}>¡HOLA, USUARIO!</Text>
 
-      {/* Imagen del mapa */}
+      
       <View style={styles.mapContainer}>
         <Image
           source={require("../assets/mapa.png")}
@@ -34,7 +34,7 @@ export default function InicioScreen({ navigation }) {
         />
       </View>
 
-      {/* Lista de taquerías */}
+      
       <ScrollView contentContainerStyle={styles.scroll}>
         {[
           { nombre: "TAQUERÍA “EL PAISA”", rating: "⭐ 4.9", distancia: "📍 0.5km" },

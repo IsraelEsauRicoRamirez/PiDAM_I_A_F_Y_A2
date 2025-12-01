@@ -19,7 +19,7 @@ export default function ComunidadesScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#FF8C00" barStyle="light-content" />
 
-      {/* Header con logo + título + íconos */}
+      
       <View style={styles.header}>
         <View style={styles.logoTitle}>
           <Image source={require("../assets/tacoLogo.png")} style={styles.logo} />
@@ -32,11 +32,11 @@ export default function ComunidadesScreen({ navigation }) {
         </View>
       </View>
 
-      {/* Título de sección */}
+      
       <Text style={styles.sectionTitle}>COMUNIDADES</Text>
       <Text style={styles.subTitle}>2 TAQUERÍAS GUARDADAS</Text>
 
-      {/* Lista de taquerías guardadas */}
+      
       <ScrollView contentContainerStyle={styles.scroll}>
         {[
           {
