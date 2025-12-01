@@ -11,6 +11,7 @@ import {
   Image,
   ImageBackground,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function IniciarSesionScreen({ navigation }) {
   const [correo, setCorreo] = useState("");
