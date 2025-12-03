@@ -12,7 +12,9 @@ import MapaScreen from "./screens/MapaScreen";
 import VerComunidadScreen from "./screens/VerComunidadScreen";
 import OrdenarScreen from "./screens/OrdenarScreen";
 import NotificacionesScreen from './screens/NotificacionesScreen';
-import AjustesScreen from './screens/AjustesScreen'; // Importamos la pantalla de Ajustes
+import AjustesScreen from './screens/AjustesScreen'; 
+import AgregarTaqueriaScreen from "./screens/AgregarTaqueriaScreen";
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -59,7 +61,7 @@ function Tabs() {
           ),
         }}
       />
-      {/* AGREGADO: Pantalla Ajustes al final de la barra inferior */}
+      
       <Tab.Screen
         name="AJUSTES"
         component={AjustesScreen}
@@ -90,7 +92,14 @@ export default function App() {
           options={{ headerShown: false }}
         />
 
-        {/* El Stack de Tabs contiene ahora Inicio, Comunidades, Mapa y Ajustes */}
+       
+        <Stack.Screen 
+            name="AgregarTaqueria" 
+            component={AgregarTaqueriaScreen} 
+            options={{ title: 'Registrar Taquería', headerShown: true }} 
+        />
+        
+        
         <Stack.Screen name="Tabs" component={Tabs} />
       </Stack.Navigator>
     </NavigationContainer>
