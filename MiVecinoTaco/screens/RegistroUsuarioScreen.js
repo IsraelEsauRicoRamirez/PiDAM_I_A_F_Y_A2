@@ -16,6 +16,7 @@ import {
 import { UsuarioController } from "../controllers/UsuarioController";
 
 export default function RegistroUsuarioScreen({ navigation }) {
+  // Instanciamos el controlador
   const controller = new UsuarioController();
 
   const [nombre, setNombre] = useState("");
@@ -24,6 +25,7 @@ export default function RegistroUsuarioScreen({ navigation }) {
   const [contrasena, setContrasena] = useState("");
   const [confirmar, setConfirmar] = useState("");
   const [aceptaTerminos, setAceptaTerminos] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const registrarUsuario = async () => {
     if (!nombre || !correo || !contrasena) {
@@ -41,21 +43,29 @@ export default function RegistroUsuarioScreen({ navigation }) {
       return;
     }
 
-    const resultado = await controller.registrar(
-      nombre,
-      correo,
-      telefono,
-      contrasena
-    );
-
-    if (resultado.success) {
-      Alert.alert(
-        "¡Bienvenido!",
-        "Cuenta creada correctamente. Ahora inicia sesión.",
-        [{ text: "OK", onPress: () => navigation.navigate("InicioSesion") }]
+    setLoading(true);
+    try {
+      const resultado = await controller.registrar(
+        nombre,
+        correo,
+        telefono,
+        contrasena
       );
-    } else {
-      Alert.alert("Error", resultado.msg);
+
+      if (resultado.success) {
+        Alert.alert(
+          "¡Bienvenido!",
+          "Cuenta creada correctamente. Ahora inicia sesión.",
+          [{ text: "OK", onPress: () => navigation.navigate("InicioSesion") }]
+        );
+      } else {
+        Alert.alert("Error", resultado.msg || "Error desconocido al registrar.");
+      }
+    } catch (error) {
+        console.error(error);
+        Alert.alert("Error", "Ocurrió un fallo en la aplicación.");
+    } finally {
+        setLoading(false);
     }
   };
 
@@ -139,8 +149,14 @@ export default function RegistroUsuarioScreen({ navigation }) {
               />
             </View>
 
-            <TouchableOpacity style={styles.button} onPress={registrarUsuario}>
-              <Text style={styles.buttonText}>REGISTRARSE</Text>
+            <TouchableOpacity 
+                style={styles.button} 
+                onPress={registrarUsuario}
+                disabled={loading}
+            >
+              <Text style={styles.buttonText}>
+                {loading ? "REGISTRANDO..." : "REGISTRARSE"}
+              </Text>
             </TouchableOpacity>
 
             <View style={styles.footer}>
@@ -158,43 +174,36 @@ export default function RegistroUsuarioScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   background: { flex: 1 },
-
   overlay: {
     flex: 1,
     backgroundColor: "rgba(255, 255, 255, 0.14)",
   },
-
   container: { flex: 1 },
-
   scroll: {
     flexGrow: 1,
     justifyContent: "center",
     padding: 20,
   },
-
   header: {
     alignItems: "center",
     marginBottom: 30,
   },
-
   logo: {
     width: 100,
     height: 100,
     marginBottom: 16,
+    resizeMode: 'contain' 
   },
-
   title: {
     fontSize: 26,
     fontWeight: "bold",
     color: "#FFB86A",
   },
-
   subtitle: {
     fontSize: 16,
     color: "#666",
     marginTop: 4,
   },
-
   input: {
     backgroundColor: "#FFF",
     borderRadius: 12,
@@ -205,19 +214,16 @@ const styles = StyleSheet.create({
     borderColor: "#FEE685",
     color: "#1F2937",
   },
-
   switchRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 20,
   },
-
   switchLabel: {
     fontSize: 14,
     color: "#ffaf03ff",
   },
-
   button: {
     backgroundColor: "#FFB86A",
     borderRadius: 12,
@@ -228,24 +234,21 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     elevation: 4,
   },
-
   buttonText: {
     color: "#FFF",
     fontWeight: "bold",
     fontSize: 16,
   },
-
   footer: {
     flexDirection: "row",
     justifyContent: "center",
     marginTop: 24,
+    alignItems: "center", 
   },
-
   footerText: {
     color: "#666",
     fontSize: 15,
   },
-
   link: {
     color: "#FFB86A",
     fontWeight: "600",

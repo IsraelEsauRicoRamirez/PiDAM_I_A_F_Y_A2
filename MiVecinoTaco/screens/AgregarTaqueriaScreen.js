@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, ScrollView } from 'react-native';
+import { 
+  View, 
+  Text, 
+  TextInput, 
+  Button, 
+  StyleSheet, 
+  Alert, 
+  ScrollView 
+} from 'react-native';
 
 import { registrarTaqueria } from '../controllers/TaqueriaController';
 
-
-const USUARIO_ID_MOCK = 1; 
+const USUARIO_ID_MOCK = 1;
 
 const AgregarTaqueriaScreen = ({ navigation }) => {
   const [nombre, setNombre] = useState('');
@@ -16,36 +23,40 @@ const AgregarTaqueriaScreen = ({ navigation }) => {
   const handleRegistro = async () => {
     
     if (!nombre.trim() || !direccion.trim() || !telefono.trim()) {
-        Alert.alert('Campos incompletos', 'Por favor, rellena el Nombre, Dirección y Teléfono.');
-        return;
+      Alert.alert('Campos incompletos', 'Por favor, rellena el Nombre, Dirección y Teléfono.');
+      return;
     }
 
     setLoading(true);
 
-   
-    const resultado = await registrarTaqueria(
-      nombre.trim(),
-      direccion.trim(),
-      telefono.trim(),
-      horario.trim(),
-      USUARIO_ID_MOCK 
-    );
+    try {
+      const resultado = await registrarTaqueria(
+        nombre.trim(),
+        direccion.trim(),
+        telefono.trim(),
+        horario.trim(),
+        USUARIO_ID_MOCK 
+      );
 
-    setLoading(false);
-
-    
-    if (resultado.error) {
-      Alert.alert('Error al registrar', resultado.mensaje);
-    } else {
-      Alert.alert('¡Registro Exitoso! 🥳', resultado.mensaje);
-      
-      
-      navigation.goBack(); 
+      if (resultado.error) {
+        Alert.alert('Error al registrar', resultado.mensaje || 'Ocurrió un error desconocido');
+      } else {
+        Alert.alert(
+          '¡Registro Exitoso! 🥳', 
+          resultado.mensaje,
+          [{ text: "OK", onPress: () => navigation.goBack() }]
+        );
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Falló la comunicación con la base de datos');
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView contentContainerStyle={styles.scrollContent} style={styles.container}>
       <Text style={styles.title}>Registrar Nueva Taquería</Text>
       <Text style={styles.subtitle}>¡Únete a la comunidad de MiVecinoTaco!</Text>
 
@@ -55,6 +66,7 @@ const AgregarTaqueriaScreen = ({ navigation }) => {
         value={nombre}
         onChangeText={setNombre}
         placeholder="Ej: Tacos El Padrino"
+        placeholderTextColor="#999"
       />
 
       <Text style={styles.label}>Dirección (*)</Text>
@@ -63,6 +75,7 @@ const AgregarTaqueriaScreen = ({ navigation }) => {
         value={direccion}
         onChangeText={setDireccion}
         placeholder="Ej: Av. Juárez #101, Col. Centro"
+        placeholderTextColor="#999"
         multiline
       />
 
@@ -72,6 +85,7 @@ const AgregarTaqueriaScreen = ({ navigation }) => {
         value={telefono}
         onChangeText={setTelefono}
         placeholder="Ej: 5512345678"
+        placeholderTextColor="#999"
         keyboardType="phone-pad"
       />
 
@@ -81,6 +95,7 @@ const AgregarTaqueriaScreen = ({ navigation }) => {
         value={horario}
         onChangeText={setHorario}
         placeholder="Ej: Lunes a Sábado, 18:00 - 02:00"
+        placeholderTextColor="#999"
       />
 
       <View style={styles.buttonContainer}>
@@ -91,7 +106,6 @@ const AgregarTaqueriaScreen = ({ navigation }) => {
           color="#FF7F50"
         />
       </View>
-      
     </ScrollView>
   );
 };
@@ -99,8 +113,11 @@ const AgregarTaqueriaScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
     backgroundColor: '#fff',
+  },
+  scrollContent: {
+    padding: 20,
+    paddingBottom: 50, 
   },
   title: {
     fontSize: 24,
@@ -121,16 +138,18 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   input: {
-    height: 40,
+    minHeight: 40,
     borderColor: '#ccc',
     borderWidth: 1,
     paddingHorizontal: 10,
+    paddingVertical: 8,
     borderRadius: 8,
     backgroundColor: '#f9f9f9',
+    color: '#000',
   },
   buttonContainer: {
     marginTop: 30,
-    marginBottom: 50,
+    marginBottom: 20,
   }
 });
 
