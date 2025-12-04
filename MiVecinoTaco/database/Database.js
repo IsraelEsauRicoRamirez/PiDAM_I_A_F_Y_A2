@@ -13,6 +13,7 @@ const getDB = async () => {
 };
 
 const initTables = async (db) => {
+  // 1. TABLA USUARIOS
   await db.execAsync(`
     CREATE TABLE IF NOT EXISTS usuarios (
       id INTEGER PRIMARY KEY NOT NULL,
@@ -22,6 +23,7 @@ const initTables = async (db) => {
       contrasena TEXT NOT NULL
     );
   `);
+  // 2. TABLA PRODUCTOS
   await db.execAsync(`
     CREATE TABLE IF NOT EXISTS productos (
       id INTEGER PRIMARY KEY NOT NULL,
@@ -31,6 +33,7 @@ const initTables = async (db) => {
       categoria TEXT
     );
   `);
+  // 3. TABLA PEDIDOS
   await db.execAsync(`
     CREATE TABLE IF NOT EXISTS pedidos (
       id INTEGER PRIMARY KEY NOT NULL,
@@ -40,6 +43,7 @@ const initTables = async (db) => {
       estado TEXT
     );
   `);
+  // 4. TABLA COMENTARIOS
   await db.execAsync(`
     CREATE TABLE IF NOT EXISTS comentarios (
       id INTEGER PRIMARY KEY NOT NULL,
@@ -49,6 +53,7 @@ const initTables = async (db) => {
       likes INTEGER
     );
   `);
+  // 5. TABLA NOTIFICACIONES
   await db.execAsync(`
     CREATE TABLE IF NOT EXISTS notificaciones (
       id INTEGER PRIMARY KEY NOT NULL,
@@ -59,6 +64,7 @@ const initTables = async (db) => {
       tiempo TEXT
     );
   `);
+  // 6. TABLA FAVORITOS
   await db.execAsync(`
     CREATE TABLE IF NOT EXISTS favoritos (
       id INTEGER PRIMARY KEY NOT NULL,
@@ -67,9 +73,20 @@ const initTables = async (db) => {
     );
   `);
 
-  const conteo = await db.getFirstAsync(
-    'SELECT count(*) as count FROM productos'
-  );
+  // 7. TABLA TAQUERÍAS (¡NUEVO! Para corregir tu error)
+  await db.execAsync(`
+    CREATE TABLE IF NOT EXISTS taquerias (
+      id INTEGER PRIMARY KEY NOT NULL,
+      nombre TEXT NOT NULL,
+      rating TEXT,
+      distancia TEXT,
+      lat REAL,
+      lng REAL
+    );
+  `);
+
+  // SEED DE PRODUCTOS (Datos iniciales)
+  const conteo = await db.getFirstAsync('SELECT count(*) as count FROM productos');
   if (conteo.count === 0) {
     await db.runAsync(`
       INSERT INTO productos (nombre, descripcion, precio, categoria) VALUES 
@@ -81,7 +98,22 @@ const initTables = async (db) => {
       ('GUACAMOLE', 'Porción individual', '$10', 'extras');
     `);
   }
+
+  // SEED DE TAQUERÍAS (Datos iniciales para que no salga vacío)
+  const conteoTaquerias = await db.getFirstAsync('SELECT count(*) as count FROM taquerias');
+  if (conteoTaquerias.count === 0) {
+    await db.runAsync(`
+        INSERT INTO taquerias (nombre, rating, distancia, lat, lng) VALUES
+        ('TAQUERÍA “EL PAISA”', '⭐ 4.9', '📍 0.5km', 20.588, -100.389),
+        ('TAQUERÍA “EL PATA”', '⭐ 4.4', '📍 1.2km', 20.590, -100.390),
+        ('TAQUERÍA “LOS COMPAS”', '⭐ 4.7', '📍 0.8km', 20.592, -100.388),
+        ('TAQUERÍA “LA ESQUINA”', '⭐ 4.5', '📍 1.5km', 20.585, -100.392),
+        ('TAQUERÍA “EL SABOR”', '⭐ 4.8', '📍 2.0km', 20.595, -100.385);
+    `);
+  }
 };
+
+// --- EXPORTS ---
 
 export const insertUsuario = async (nombre, correo, telefono, contrasena) => {
   const db = await getDB();
@@ -205,8 +237,6 @@ export const getFavoritos = async (usuarioId) => {
   );
 };
 
-// --- NUEVAS FUNCIONES ---
-
 export const getContrasenaPorCorreo = async (correo) => {
   const db = await getDB();
   return await db.getFirstAsync(
@@ -221,4 +251,10 @@ export const updateUsuario = async (id, nombre, telefono, contrasena) => {
     'UPDATE usuarios SET nombre = ?, telefono = ?, contrasena = ? WHERE id = ?;',
     [nombre, telefono, contrasena, id]
   );
+};
+
+// --- ESTA ES LA FUNCIÓN QUE TE FALTABA ---
+export const getAllTaquerias = async () => {
+  const db = await getDB();
+  return await db.getAllAsync('SELECT * FROM taquerias;');
 };
