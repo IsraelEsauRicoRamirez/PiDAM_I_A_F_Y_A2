@@ -18,7 +18,20 @@ import { ComunidadController } from "../controllers/ComunidadController";
 import { UsuarioController } from "../controllers/UsuarioController";
 
 export default function VerComunidadScreen({ navigation, route }) {
-const comunidadNombre = route?.params?.comunidadNombre || "Comunidad";
+
+  const normalizar = (nombre) => {
+  return nombre
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // quita acentos
+    .replace(/["“”]/g, "") // quita comillas
+    .trim();
+};
+
+const comunidadNombre = normalizar(route?.params?.comunidadNombre || "Comunidad");
+
+console.log(">>> NOMBRE RECIBIDO EN COMUNIDAD:", comunidadNombre);
+console.log(">>> PARAMS COMPLETOS:", route?.params);
+
 
 
   const controller = new ComunidadController();
@@ -50,13 +63,13 @@ useEffect(() => {
     if (!user) return Alert.alert("Error", "Debes iniciar sesión para comentar");
     if (nuevoTexto.trim() === "") return;
 
-   controller.publicar(user.nombre, nuevoTexto, comunidadNombre);
+   const exito = await controller.publicar(user.nombre, nuevoTexto, comunidadNombre);
 
+if (exito) {
+  setNuevoTexto("");
+  cargarComentarios();
+}
 
-    if (exito) {
-      setNuevoTexto("");
-      cargarComentarios();
-    }
   };
 
   // INTERACCIÓN: DAR LIKE
@@ -78,8 +91,11 @@ useEffect(() => {
         </TouchableOpacity>
 
   <Text style={styles.headerTitle}>
-  Comunidad de la Taquería "{comunidadNombre}"
+  {comunidadNombre === "Comunidad"
+    ? "Cargando comunidad..."
+    : `Comunidad de la Taquería "${comunidadNombre}"`}
 </Text>
+
 
 
 

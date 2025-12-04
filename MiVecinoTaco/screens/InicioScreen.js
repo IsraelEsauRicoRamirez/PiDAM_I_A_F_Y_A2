@@ -82,11 +82,16 @@ useFocusEffect(
       <ScrollView contentContainerStyle={styles.scroll}>
         {taquerias.map((taco, index) => {
           const isFav = misFavoritos.includes(taco.nombre);
+          console.log(">>> NAVEGANDO A ORDENAR CON:", taco.nombre);
+
           return (
+            
            <TouchableOpacity
   key={index}
   style={styles.card}
+  
   onPress={() => navigation.navigate("Ordenar", {
+    
   taqueriaNombre: taco.nombre,
   direccion: taco.direccion || "Dirección no disponible",
   telefono: taco.telefono || "",

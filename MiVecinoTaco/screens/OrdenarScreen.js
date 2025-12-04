@@ -9,7 +9,17 @@ import { UsuarioController } from "../controllers/UsuarioController";
 import { CarritoController } from "../controllers/CarritoController";
 
 export default function OrdenarScreen({ navigation, route }) {
+  const normalizar = (nombre) => {
+  return nombre
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // quita acentos
+    .replace(/["“”]/g, "") // quita comillas
+    .trim();
+};
+
 const taqueriaNombre = route?.params?.taqueriaNombre || "Taquería";
+console.log(">>> TAQUERIA RECIBIDA EN ORDENAR:", taqueriaNombre);
+
 const direccion = route?.params?.direccion || "Dirección no disponible";
 const telefono = route?.params?.telefono || "";
 const distancia = route?.params?.distancia || "";
@@ -17,9 +27,6 @@ const lat = route?.params?.lat;
 const lng = route?.params?.lng;
 
 
-
-
-  
 
   const pedidoCtrl = new PedidoController();
   const usuarioCtrl = new UsuarioController();
@@ -124,7 +131,19 @@ const irAComunidad = () => navigation.navigate("VerComunidad", {
         <View style={styles.actionRow}>
           <TouchableOpacity style={styles.actionButton} onPress={llamarRestaurante}><Text style={styles.actionText}>📞 LLAMA YA</Text></TouchableOpacity>
           <TouchableOpacity style={styles.actionButton} onPress={abrirMapa}><Text style={styles.actionText}>🗺️ CÓMO LLEGAR</Text></TouchableOpacity>
-          <TouchableOpacity style={styles.actionButton} onPress={irAComunidad}><Text style={styles.actionText}>🔗 UNIRSE A COMUNIDAD</Text></TouchableOpacity>
+     <TouchableOpacity
+  style={styles.actionButton}
+  onPress={() => {
+    const nombreLimpio = normalizar(taqueriaNombre);
+
+    navigation.navigate("VerComunidad", {
+      comunidadNombre: nombreLimpio
+    });
+  }}
+>
+  <Text style={styles.actionText}>🔗 UNIRSE A COMUNIDAD</Text>
+</TouchableOpacity>
+
         </View>
 
         {renderSection("🌮 TACOS", menu.tacos, "tacos")}

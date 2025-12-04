@@ -17,6 +17,14 @@ import { getAllTaquerias } from "../database/Database";
 const { width } = Dimensions.get("window");
 
 export default function ComunidadesScreen({ navigation }) {
+  const normalizar = (nombre) => {
+  return nombre
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // quita acentos
+    .replace(/["“”]/g, "") // quita comillas
+    .trim();
+};
+
   const [taquerias, setTaquerias] = useState([]);
 
   
@@ -29,7 +37,8 @@ export default function ComunidadesScreen({ navigation }) {
     }
   };
 
-  
+
+
   useFocusEffect(
     useCallback(() => {
       cargarTaquerias();
@@ -97,12 +106,19 @@ export default function ComunidadesScreen({ navigation }) {
               <Text style={styles.rating}>⭐ 5.0 (Nuevo)</Text>
 
               <View style={styles.buttonRow}>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => navigation.navigate("VerComunidad")}
-                >
-                  <Text style={styles.buttonText}>VER COMUNIDAD</Text>
-                </TouchableOpacity>
+    <TouchableOpacity
+  style={styles.button}
+  onPress={() => {
+    const nombreLimpio = normalizar(taco.nombre);
+    navigation.navigate("VerComunidad", {
+      comunidadNombre: nombreLimpio
+    });
+  }}
+>
+  <Text style={styles.buttonText}>VER COMUNIDAD</Text>
+</TouchableOpacity>
+
+
 
                 <TouchableOpacity
                   style={styles.buttonOutline}
