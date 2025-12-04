@@ -9,12 +9,12 @@ import {
 import { Usuario } from '../models/Usuario';
 
 export class UsuarioController {
-  static usuarioActivo = null;
+  static usuarioActivo = null;
 
-  async registrar(nombre, correo, telefono, contrasena) {
-    if (!nombre || !correo || !contrasena) {
-      return { success: false, msg: 'Faltan datos.' };
-    }
+  async registrar(nombre, correo, telefono, contrasena) {
+    if (!nombre || !correo || !contrasena) {
+      return { success: false, msg: 'Faltan datos.' };
+    }
 
     try {
       const res = await insertUsuario(

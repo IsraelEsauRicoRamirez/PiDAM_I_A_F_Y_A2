@@ -1,7 +1,6 @@
 import * as SQLite from 'expo-sqlite';
 
-const DB_NAME = 'mivecinoeltaco_pro_v6.db'; 
-
+const DB_NAME = 'mivecinoeltaco_pro.db';
 let dbInstance = null;
 
 const getDB = async () => {
@@ -14,7 +13,6 @@ const getDB = async () => {
 };
 
 const initTables = async (db) => {
-  // Tabla Usuarios
   await db.execAsync(`
     CREATE TABLE IF NOT EXISTS usuarios (
       id INTEGER PRIMARY KEY NOT NULL,
@@ -69,7 +67,6 @@ const initTables = async (db) => {
     );
   `);
 
-  // Datos semilla para Productos
   const conteo = await db.getFirstAsync(
     'SELECT count(*) as count FROM productos'
   );
@@ -86,31 +83,8 @@ const initTables = async (db) => {
   }
 };
 
-
-
-export const insertTaqueria = async (nombre, direccion, telefono, horario, usuarioId) => {
-  const db = await getDB();
-  return await db.runAsync(
-    'INSERT INTO taquerias (nombre, direccion, telefono, horario, usuario_id) VALUES (?, ?, ?, ?, ?);',
-    [nombre, direccion, telefono, horario, usuarioId]
-  );
-};
-
-export const getAllTaquerias = async () => {
-  const db = await getDB();
-  return await db.getAllAsync('SELECT * FROM taquerias ORDER BY nombre ASC;');
-};
-
-export const getTaqueriaById = async (id) => {
-  const db = await getDB();
-  return await db.getFirstAsync('SELECT * FROM taquerias WHERE id = ?;', [id]);
-};
-
-
-
 export const insertUsuario = async (nombre, correo, telefono, contrasena) => {
   const db = await getDB();
- 
   return await db.runAsync(
     'INSERT INTO usuarios (nombre, correo, telefono, contrasena) VALUES (?, ?, ?, ?);',
     [nombre, correo, telefono, contrasena]
@@ -124,8 +98,6 @@ export const loginUsuario = async (correo, contrasena) => {
     [correo, contrasena]
   );
 };
-
-
 
 export const getProductos = async () => {
   const db = await getDB();
@@ -147,8 +119,6 @@ export const getPedidosPorUsuario = async (usuarioId) => {
     [usuarioId]
   );
 };
-
-
 
 export const insertComentario = async (usuarioNombre, texto, fecha) => {
   const db = await getDB();
@@ -172,8 +142,6 @@ export const updateComentarioLikes = async (id, nuevosLikes) => {
     [nuevosLikes, id]
   );
 };
-
-
 
 export const insertNotificacion = async (usuarioId, tipo, titulo, descripcion, tiempo) => {
   const db = await getDB();
@@ -206,8 +174,6 @@ export const deleteAllNotificaciones = async (usuarioId) => {
     [usuarioId]
   );
 };
-
-
 
 export const addFavorito = async (usuarioId, taqueriaNombre) => {
   const db = await getDB();
