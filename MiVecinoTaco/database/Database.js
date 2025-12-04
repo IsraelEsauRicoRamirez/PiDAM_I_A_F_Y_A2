@@ -22,7 +22,6 @@ const initTables = async (db) => {
       contrasena TEXT NOT NULL
     );
   `);
-
   await db.execAsync(`
     CREATE TABLE IF NOT EXISTS productos (
       id INTEGER PRIMARY KEY NOT NULL,
@@ -32,7 +31,6 @@ const initTables = async (db) => {
       categoria TEXT
     );
   `);
-
   await db.execAsync(`
     CREATE TABLE IF NOT EXISTS pedidos (
       id INTEGER PRIMARY KEY NOT NULL,
@@ -42,7 +40,6 @@ const initTables = async (db) => {
       estado TEXT
     );
   `);
-
   await db.execAsync(`
     CREATE TABLE IF NOT EXISTS comentarios (
       id INTEGER PRIMARY KEY NOT NULL,
@@ -52,7 +49,6 @@ const initTables = async (db) => {
       likes INTEGER
     );
   `);
-
   await db.execAsync(`
     CREATE TABLE IF NOT EXISTS notificaciones (
       id INTEGER PRIMARY KEY NOT NULL,
@@ -63,7 +59,6 @@ const initTables = async (db) => {
       tiempo TEXT
     );
   `);
-
   await db.execAsync(`
     CREATE TABLE IF NOT EXISTS favoritos (
       id INTEGER PRIMARY KEY NOT NULL,
@@ -75,7 +70,6 @@ const initTables = async (db) => {
   const conteo = await db.getFirstAsync(
     'SELECT count(*) as count FROM productos'
   );
-
   if (conteo.count === 0) {
     await db.runAsync(`
       INSERT INTO productos (nombre, descripcion, precio, categoria) VALUES 
@@ -183,12 +177,10 @@ export const deleteAllNotificaciones = async (usuarioId) => {
 
 export const addFavorito = async (usuarioId, taqueriaNombre) => {
   const db = await getDB();
-
   const existe = await db.getFirstAsync(
     'SELECT * FROM favoritos WHERE usuario_id = ? AND taqueria_nombre = ?;',
     [usuarioId, taqueriaNombre]
   );
-
   if (!existe) {
     return await db.runAsync(
       'INSERT INTO favoritos (usuario_id, taqueria_nombre) VALUES (?, ?);',
@@ -210,5 +202,23 @@ export const getFavoritos = async (usuarioId) => {
   return await db.getAllAsync(
     'SELECT taqueria_nombre FROM favoritos WHERE usuario_id = ?;',
     [usuarioId]
+  );
+};
+
+// --- NUEVAS FUNCIONES ---
+
+export const getContrasenaPorCorreo = async (correo) => {
+  const db = await getDB();
+  return await db.getFirstAsync(
+    'SELECT contrasena FROM usuarios WHERE correo = ?;',
+    [correo]
+  );
+};
+
+export const updateUsuario = async (id, nombre, telefono, contrasena) => {
+  const db = await getDB();
+  return await db.runAsync(
+    'UPDATE usuarios SET nombre = ?, telefono = ?, contrasena = ? WHERE id = ?;',
+    [nombre, telefono, contrasena, id]
   );
 };

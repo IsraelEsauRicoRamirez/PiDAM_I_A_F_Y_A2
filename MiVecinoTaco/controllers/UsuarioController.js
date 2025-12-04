@@ -1,7 +1,9 @@
 import {
   insertUsuario,
   loginUsuario,
-  insertNotificacion
+  insertNotificacion,
+  getContrasenaPorCorreo,
+  updateUsuario
 } from '../database/Database';
 
 import { Usuario } from '../models/Usuario';
@@ -21,7 +23,6 @@ export class UsuarioController {
         telefono,
         contrasena
       );
-
       if (res.lastInsertRowId) {
         await insertNotificacion(
           res.lastInsertRowId,
@@ -31,7 +32,6 @@ export class UsuarioController {
           'Ahora'
         );
       }
-
       return { success: true };
     } catch (error) {
       return { success: false, msg: 'El correo ya existe.' };
@@ -44,7 +44,6 @@ export class UsuarioController {
         correo.toLowerCase(),
         contrasena
       );
-
       if (data) {
         const userObj = new Usuario(
           data.id,
@@ -53,14 +52,40 @@ export class UsuarioController {
           data.telefono,
           data.contrasena
         );
-
         UsuarioController.usuarioActivo = userObj;
         return userObj;
       }
-
       return null;
     } catch (error) {
       return null;
+    }
+  }
+
+  // --- NUEVO: Recuperar Contraseña ---
+  async recuperarContrasena(correo) {
+    try {
+      const res = await getContrasenaPorCorreo(correo.toLowerCase());
+      if (res) {
+        return { success: true, password: res.contrasena };
+      }
+      return { success: false };
+    } catch (error) {
+      return { success: false };
+    }
+  }
+
+  // --- NUEVO: Editar Usuario ---
+  async editarDatos(id, nombre, telefono, contrasena) {
+    try {
+      await updateUsuario(id, nombre, telefono, contrasena);
+      if (UsuarioController.usuarioActivo) {
+        UsuarioController.usuarioActivo.nombre = nombre;
+        UsuarioController.usuarioActivo.telefono = telefono;
+        UsuarioController.usuarioActivo.contrasena = contrasena;
+      }
+      return true;
+    } catch (error) {
+      return false;
     }
   }
 
