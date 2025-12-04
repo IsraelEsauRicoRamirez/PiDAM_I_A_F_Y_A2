@@ -48,7 +48,10 @@ const abrirMapa = () => {
   Linking.openURL(url);
 };
 
-  const irAComunidad = () => navigation.navigate("VerComunidad");
+const irAComunidad = () => navigation.navigate("VerComunidad", {
+  comunidadNombre: taqueriaNombre
+});
+
 
   // Función Agregar al Carrito
   const handleAgregar = async (item) => {

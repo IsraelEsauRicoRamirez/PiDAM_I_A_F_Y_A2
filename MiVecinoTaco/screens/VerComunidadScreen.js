@@ -34,11 +34,13 @@ const comunidadNombre = route?.params?.comunidadNombre || "Comunidad";
 
 
 useEffect(() => {
-  if (!route?.params?.comunidadNombre) {
-    navigation.goBack(); 
+  if (!comunidadNombre || comunidadNombre === "Comunidad") {
+    return; 
   }
-   cargarComentarios();
-}, []);
+
+  cargarComentarios();
+}, [comunidadNombre]);
+
 
 
   
@@ -48,7 +50,8 @@ useEffect(() => {
     if (!user) return Alert.alert("Error", "Debes iniciar sesión para comentar");
     if (nuevoTexto.trim() === "") return;
 
-    const exito = await controller.publicar(user.nombre, nuevoTexto);
+   controller.publicar(user.nombre, nuevoTexto, comunidadNombre);
+
 
     if (exito) {
       setNuevoTexto("");
@@ -74,7 +77,11 @@ useEffect(() => {
           <Ionicons name="arrow-back" size={28} color="#1F1F1F" />
         </TouchableOpacity>
 
-        <Text style={styles.headerTitle}>{comunidadNombre}</Text>
+  <Text style={styles.headerTitle}>
+  Comunidad de la Taquería "{comunidadNombre}"
+</Text>
+
+
 
 
         <View style={{ width: 28 }} />
