@@ -8,13 +8,28 @@ import { PedidoController } from "../controllers/PedidoController";
 import { UsuarioController } from "../controllers/UsuarioController";
 import { CarritoController } from "../controllers/CarritoController";
 
-export default function OrdenarScreen({ navigation }) {
+export default function OrdenarScreen({ navigation, route }) {
+const taqueriaNombre = route?.params?.taqueriaNombre || "Taquería";
+const direccion = route?.params?.direccion || "Dirección no disponible";
+const telefono = route?.params?.telefono || "";
+const distancia = route?.params?.distancia || "";
+const lat = route?.params?.lat;
+const lng = route?.params?.lng;
+
+
+
+
+  
+
   const pedidoCtrl = new PedidoController();
   const usuarioCtrl = new UsuarioController();
   const cartCtrl = new CarritoController();
 
   const [openSection, setOpenSection] = useState("tacos");
   const [menu, setMenu] = useState({ tacos: [], bebidas: [], extras: [] });
+
+
+
 
   useEffect(() => {
     pedidoCtrl.obtenerMenu().then((productos) => {
@@ -26,12 +41,13 @@ export default function OrdenarScreen({ navigation }) {
     });
   }, []);
 
-  const llamarRestaurante = () => Linking.openURL("tel:+528331550045");
-  const abrirMapa = () => {
-    const label = "Taquería El Vecino";
-    const url = Platform.select({ ios: "maps:0,0?q=" + label, android: "geo:0,0?q=" + label });
-    Linking.openURL(url);
-  };
+ const llamarRestaurante = () => Linking.openURL(`tel:${telefono}`);
+const abrirMapa = () => {
+  const label = taqueriaNombre;
+  const url = Platform.select({ ios: "maps:0,0?q=" + label, android: "geo:0,0?q=" + label });
+  Linking.openURL(url);
+};
+
   const irAComunidad = () => navigation.navigate("VerComunidad");
 
   // Función Agregar al Carrito
@@ -66,6 +82,8 @@ export default function OrdenarScreen({ navigation }) {
         </View>
       )}
     </View>
+
+    
   );
 
   return (
@@ -86,17 +104,19 @@ export default function OrdenarScreen({ navigation }) {
 
       <ScrollView contentContainerStyle={styles.scroll}>
         <Image source={require("../assets/tacosPromo.png")} style={styles.banner} />
-        <Text style={styles.title}>Taquería 20 de Noviembre</Text>
-        <Text style={styles.subText}>📍 A 1.2 Km</Text>
+        <Text style={styles.title}>{taqueriaNombre}</Text>
+<Text style={styles.subText}>📍 {distancia}</Text>
 
-        <View style={styles.infoBox}>
-          <Text style={styles.label}>📍 Dirección</Text>
-          <Text style={styles.value}>Calle Morales 456, Col. Juárez</Text>
-          <Text style={styles.label}>🕒 Horario</Text>
-          <Text style={styles.value}>Lun - Sab: 7:00 PM - 1:00 AM</Text>
-          <Text style={styles.label}>📞 Teléfono</Text>
-          <Text style={styles.value}>+52 833 155 0045</Text>
-        </View>
+<View style={styles.infoBox}>
+  <Text style={styles.label}>📍 Dirección</Text>
+  <Text style={styles.value}>{direccion}</Text>
+  <Text style={styles.label}>🕒 Horario</Text>
+  <Text style={styles.value}>Lun - Sab: 7:00 PM - 1:00 AM</Text>
+  <Text style={styles.label}>📞 Teléfono</Text>
+  <Text style={styles.value}>{telefono}</Text>
+</View>
+
+
 
         <View style={styles.actionRow}>
           <TouchableOpacity style={styles.actionButton} onPress={llamarRestaurante}><Text style={styles.actionText}>📞 LLAMA YA</Text></TouchableOpacity>

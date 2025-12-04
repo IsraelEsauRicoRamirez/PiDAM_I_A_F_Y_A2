@@ -7,6 +7,8 @@ import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import { UsuarioController } from "../controllers/UsuarioController";
 import { FavoritoController } from "../controllers/FavoritoController";
+import { getAllTaquerias } from "../database/Database";
+
 
 export default function InicioScreen({ navigation }) {
   const userCtrl = new UsuarioController();
@@ -14,29 +16,32 @@ export default function InicioScreen({ navigation }) {
   const [nombreUsuario, setNombreUsuario] = useState("AMIGO");
   const [misFavoritos, setMisFavoritos] = useState([]);
   const [usuarioId, setUsuarioId] = useState(null);
+  const [taquerias, setTaquerias] = useState([]);
+
   
-  const taquerias = [
-    { nombre: "TAQUERÍA “EL PAISA”", rating: "⭐ 4.9", distancia: "📍 0.5km" },
-    { nombre: "TAQUERÍA “EL PATA”", rating: "⭐ 4.4", distancia: "📍 1.2km" },
-    { nombre: "TAQUERÍA “LOS COMPAS”", rating: "⭐ 4.7", distancia: "📍 0.8km" },
-    { nombre: "TAQUERÍA “LA ESQUINA”", rating: "⭐ 4.5", distancia: "📍 1.5km" },
-    { nombre: "TAQUERÍA “EL SABOR”", rating: "⭐ 4.8", distancia: "📍 2.0km" },
-  ];
+  
 
-  useFocusEffect(
-    useCallback(() => {
-      const user = userCtrl.getUsuarioActivo();
-      if (user) {
-        setNombreUsuario(user.nombre.split(" ")[0].toUpperCase());
-        setUsuarioId(user.id);
-        favCtrl.obtenerMisFavoritos(user.id).then((favs) => {
-          setMisFavoritos(favs);
-        });
-      }
-    }, [])
-  );
+useFocusEffect(
+  useCallback(() => {
+    const user = userCtrl.getUsuarioActivo();
+    if (user) {
+      setNombreUsuario(user.nombre.split(" ")[0].toUpperCase());
+      setUsuarioId(user.id);
 
-  const irAOrdenar = () => navigation.navigate("Ordenar");
+      favCtrl.obtenerMisFavoritos(user.id).then((favs) => {
+        setMisFavoritos(favs);
+      });
+    }
+
+   
+    getAllTaquerias().then((data) => {
+      setTaquerias(data);
+    });
+
+  }, [])
+);
+
+
   const irAMapa = () => navigation.navigate("MAPA");
 
   const toggleHeart = async (taqueriaNombre) => {
@@ -78,7 +83,21 @@ export default function InicioScreen({ navigation }) {
         {taquerias.map((taco, index) => {
           const isFav = misFavoritos.includes(taco.nombre);
           return (
-            <TouchableOpacity key={index} style={styles.card} onPress={irAOrdenar} activeOpacity={0.7}>
+           <TouchableOpacity
+  key={index}
+  style={styles.card}
+  onPress={() => navigation.navigate("Ordenar", {
+  taqueriaNombre: taco.nombre,
+  direccion: taco.direccion || "Dirección no disponible",
+  telefono: taco.telefono || "",
+  distancia: taco.distancia || "",
+  lat: taco.lat,
+  lng: taco.lng
+})}
+
+  activeOpacity={0.7}
+>
+
               <View style={{ flex: 1 }}>
                 <Text style={styles.name}>{taco.nombre}</Text>
                 <Text style={styles.details}>{taco.rating} {taco.distancia}</Text>

@@ -17,7 +17,10 @@ import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { ComunidadController } from "../controllers/ComunidadController";
 import { UsuarioController } from "../controllers/UsuarioController";
 
-export default function VerComunidadScreen({ navigation }) {
+export default function VerComunidadScreen({ navigation, route }) {
+const comunidadNombre = route?.params?.comunidadNombre || "Comunidad";
+
+
   const controller = new ComunidadController();
   const userCtrl = new UsuarioController();
 
@@ -25,15 +28,20 @@ export default function VerComunidadScreen({ navigation }) {
   const [nuevoTexto, setNuevoTexto] = useState("");
 
   const cargarComentarios = async () => {
-    const data = await controller.obtenerComentarios();
-    setComentarios(data);
-  };
+  const data = await controller.obtenerComentarios(comunidadNombre);
+  setComentarios(data);
+};
 
-  useEffect(() => {
-    cargarComentarios();
-  }, []);
 
-  // PUBLICAR COMENTARIO
+useEffect(() => {
+  if (!route?.params?.comunidadNombre) {
+    navigation.goBack(); 
+  }
+   cargarComentarios();
+}, []);
+
+
+  
   const publicar = async () => {
     const user = userCtrl.getUsuarioActivo();
 
@@ -66,7 +74,8 @@ export default function VerComunidadScreen({ navigation }) {
           <Ionicons name="arrow-back" size={28} color="#1F1F1F" />
         </TouchableOpacity>
 
-        <Text style={styles.headerTitle}>Comunidad El Paisa</Text>
+        <Text style={styles.headerTitle}>{comunidadNombre}</Text>
+
 
         <View style={{ width: 28 }} />
       </View>

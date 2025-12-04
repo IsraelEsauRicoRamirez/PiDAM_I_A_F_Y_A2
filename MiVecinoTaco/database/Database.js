@@ -75,15 +75,24 @@ const initTables = async (db) => {
 
   // 7. TABLA TAQUERÍAS (¡NUEVO! Para corregir tu error)
   await db.execAsync(`
-    CREATE TABLE IF NOT EXISTS taquerias (
-      id INTEGER PRIMARY KEY NOT NULL,
-      nombre TEXT NOT NULL,
-      rating TEXT,
-      distancia TEXT,
-      lat REAL,
-      lng REAL
-    );
+  CREATE TABLE IF NOT EXISTS taquerias (
+  id INTEGER PRIMARY KEY NOT NULL,
+  nombre TEXT NOT NULL,
+  direccion TEXT,
+  telefono TEXT,
+  horario TEXT,
+  usuario_id INTEGER,
+  rating TEXT,
+  distancia TEXT,
+  lat REAL,
+  lng REAL
+);
+
   `);
+await db.execAsync("ALTER TABLE taquerias ADD COLUMN direccion TEXT;");
+await db.execAsync("ALTER TABLE taquerias ADD COLUMN telefono TEXT;");
+await db.execAsync("ALTER TABLE taquerias ADD COLUMN horario TEXT;");
+await db.execAsync("ALTER TABLE taquerias ADD COLUMN usuario_id INTEGER;");
 
   // SEED DE PRODUCTOS (Datos iniciales)
   const conteo = await db.getFirstAsync('SELECT count(*) as count FROM productos');
@@ -252,8 +261,15 @@ export const updateUsuario = async (id, nombre, telefono, contrasena) => {
     [nombre, telefono, contrasena, id]
   );
 };
+export const insertTaqueria = async (nombre, direccion, telefono, horario, usuarioId) => {
+  const db = await getDB();
+  return await db.runAsync(
+    'INSERT INTO taquerias (nombre, direccion, telefono, horario, usuario_id) VALUES (?, ?, ?, ?, ?);',
+    [nombre, direccion, telefono, horario, usuarioId]
+  );
+};
 
-// --- ESTA ES LA FUNCIÓN QUE TE FALTABA ---
+
 export const getAllTaquerias = async () => {
   const db = await getDB();
   return await db.getAllAsync('SELECT * FROM taquerias;');
